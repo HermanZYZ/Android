@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/background3">
+
+    <TextView
+        android:id="@+id/item_title"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:paddingStart="70dp"
+        android:paddingEnd="0dp"
+        android:text="@string/shopping_title"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/item_num"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/item_num"
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="0dp"
+        android:text="@string/title_num"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@+id/item_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/price_title"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/price_title"
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        android:paddingEnd="0dp"
+        android:text="@string/shopping_price"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/item_num"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

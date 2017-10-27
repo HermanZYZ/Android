@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="item_name">
+        <item>Enchated Forest</item>
+        <item>Arla Milk</item>
+        <item>Devondale Milk</item>
+        <item>Kindle Oasis</item>
+        <item>waitrose 早餐麦片</item>
+        <item>Mcvitie\'s 饼干</item>
+        <item>Ferrero Rocher</item>
+        <item>Maltesers</item>
+        <item>Lindt</item>
+        <item>Borggreve</item>
+    </string-array>
+
+    <string-array name="price">
+        <item>¥ 5.00</item>
+        <item>¥ 59.00</item>
+        <item>¥ 79.00</item>
+        <item>¥ 2399.00</item>
+        <item>¥ 179.00</item>
+        <item>¥ 14.90</item>
+        <item>¥ 132.59</item>
+        <item>¥ 141.43</item>
+        <item>¥ 139.43</item>
+        <item>¥ 28.90</item>
+    </string-array>
+
+    <string-array name="type">
+        <item>作者</item>
+        <item>产地</item>
+        <item>产地</item>
+        <item>版本</item>
+        <item>重量</item>
+        <item>产地</item>
+        <item>重量</item>
+        <item>重量</item>
+        <item>重量</item>
+        <item>重量</item>
+    </string-array>
+
+    <string-array name="info">
+        <item>Johanna Basford</item>
+        <item>德国</item>
+        <item>澳大利亚</item>
+        <item>8GB</item>
+        <item>2Kg</item>
+        <item>英国</item>
+        <item>300g</item>
+        <item>118g</item>
+        <item>249g</item>
+        <item>640g</item>
+    </string-array>
+
+    <string-array name="img">
+        <item>enchatedforest</item>
+        <item>arla</item>
+        <item>devondale</item>
+        <item>kindle</item>
+        <item>waitrose</item>
+        <item>mcvitie</item>
+        <item>ferrero</item>
+        <item>maltesers</item>
+        <item>lindt</item>
+        <item>borggreve</item>
+    </string-array>
+</resources>
