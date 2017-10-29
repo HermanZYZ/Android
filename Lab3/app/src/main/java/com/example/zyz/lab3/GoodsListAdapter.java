@@ -95,9 +95,10 @@ public class GoodsListAdapter extends BaseAdapter {
         viewHolder.circle.setText(dataList.get(i).getFirstLetter());
         viewHolder.name.setText(dataList.get(i).getName());
         viewHolder.num.setText(Integer.toString(dataList.get(i).getNum()));
-        viewHolder.price.setText(dataList.get(i).getPrice());
+        viewHolder.price.setText("￥ "+dataList.get(i).getPrice());
         return convertView;
     }
+
 
     private boolean isNUll() {
         return dataList == null;

@@ -14,16 +14,16 @@
     </string-array>
 
     <string-array name="price">
-        <item>¥ 5.00</item>
-        <item>¥ 59.00</item>
-        <item>¥ 79.00</item>
-        <item>¥ 2399.00</item>
-        <item>¥ 179.00</item>
-        <item>¥ 14.90</item>
-        <item>¥ 132.59</item>
-        <item>¥ 141.43</item>
-        <item>¥ 139.43</item>
-        <item>¥ 28.90</item>
+        <item>5.00</item>
+        <item>59.00</item>
+        <item>79.00</item>
+        <item>2399.00</item>
+        <item>179.00</item>
+        <item>14.90</item>
+        <item>132.59</item>
+        <item>141.43</item>
+        <item>139.43</item>
+        <item>28.90</item>
     </string-array>
 
     <string-array name="type">

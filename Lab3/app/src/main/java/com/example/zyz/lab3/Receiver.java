@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 
 /**
@@ -37,7 +38,8 @@ public class Receiver extends BroadcastReceiver {
                     .setContentText(item.getName()+"仅售"+item.getPrice()+"!")   //设置通知栏内容
                     .setTicker("您有一条新消息")                                 //通知首次出现在通知栏，带上升动画效果
                     .setLargeIcon(bitmap)                                        //设置通知大ICON
-                    .setSmallIcon(img)                                           //设置通知小ICON
+                    .setSmallIcon(R.mipmap.logo)                                           //设置通知小ICON
+                    .setColor(Color.parseColor("#FF0000"))             //设置小图标颜色
                     .setAutoCancel(true);                                        //用户单击面板即可取消通知
             Intent mintent = new Intent(context,ItemInfo.class);
             mintent.putExtras(intent.getExtras());
@@ -60,7 +62,8 @@ public class Receiver extends BroadcastReceiver {
                     .setContentText(item.getName()+"已添加到购物车")   //设置通知栏内容
                     .setTicker("您有一条新消息")                                 //通知首次出现在通知栏，带上升动画效果
                     .setLargeIcon(bitmap)                                        //设置通知大ICON
-                    .setSmallIcon(img)                                           //设置通知小ICON
+                    .setSmallIcon(R.mipmap.logo)                                           //设置通知小ICON
+                    .setColor(Color.parseColor("#FF0000"))             //设置小图标颜色
                     .setAutoCancel(true);                                        //用户单击面板即可取消通知
             Intent mintent = new Intent(context,MainActivity.class);
             Bundle bundle = new Bundle();

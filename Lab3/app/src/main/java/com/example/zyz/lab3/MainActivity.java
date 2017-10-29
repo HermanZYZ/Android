@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
+import static com.example.zyz.lab3.R.id.amount;
+
 
 /**
  * Created by ZYZ on 2017/10/23.
@@ -35,13 +38,18 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    final boolean HOME = true;
     private static final String STATICACTION = "com.example.zyz.lab3.MyStaticFilter";
     private static final String DYNAMICACTION = "com.example.zyz.lab3.MyDynamicFilter";
+    private View mButtonBar;
     private ListView shopping_list;
     private RecyclerView itemslist;
     private FloatingActionButton floatingbutton;
     private CommonAdapter mAdapter;
     private GoodsListAdapter mAdapter_shopping;
+    private Button Pay;
+    private TextView Amount;
+    private double Total_amount = 0.00;
     List<Items> productList = new ArrayList<>();
     List<Items> shoppingList = new ArrayList<>();
 
@@ -59,9 +67,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void Init()
     {
+        mButtonBar = (View) findViewById(R.id.bottombar);
         shopping_list = (ListView) findViewById(R.id.shopping_list);
         itemslist = (RecyclerView) findViewById(R.id.recyclerview);
         floatingbutton = (FloatingActionButton) findViewById(R.id.floatingactionbutton);
+        Pay = (Button) findViewById(R.id.button);
+        Amount = (TextView) findViewById(amount);
 
         String[] itemName = getResources().getStringArray(R.array.item_name);
         String[] price = getResources().getStringArray(R.array.price);
@@ -75,10 +86,8 @@ public class MainActivity extends AppCompatActivity {
             int temp = getResources().getIdentifier(img[i],"mipmap",ctx.getPackageName());
             productList.add(new Items(itemName[i],price[i],type[i],info[i],false,temp,R.color.black));
         }
-        floatingbutton.setImageResource(R.drawable.shoplist);
-        itemslist.setVisibility(View.VISIBLE);
-        shopping_list.setVisibility(View.INVISIBLE);
-
+        Amount.setText(Double.toString(Total_amount));
+        setView(HOME);
 
         Random random = new Random();
         int tmp = random.nextInt(productList.size());
@@ -92,13 +101,16 @@ public class MainActivity extends AppCompatActivity {
     private void updateShoppingList()
     {
         shoppingList.clear();
+        Total_amount = 0.0;
         for (int i = 0 ;i < productList.size(); i++)
         {
             if (productList.get(i).Is_in_list())
             {
                 shoppingList.add(productList.get(i));
+                Total_amount += productList.get(i).getNum() * (Double.parseDouble(productList.get(i).getPrice()));
             }
         }
+        Amount.setText(Double.toString(Total_amount));
         mAdapter_shopping.notifyDataSetChanged();
     }
 
@@ -108,14 +120,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (itemslist.getVisibility() == View.INVISIBLE) /*当前处在购物车界面*/ {
-                    itemslist.setVisibility(View.VISIBLE);
-                    shopping_list.setVisibility(View.INVISIBLE);
-                    floatingbutton.setImageResource(R.drawable.shoplist);
+                    setView(HOME);
                 } else/*当前处在Home界面*/ {
                     //updateShoppingList();
-                    itemslist.setVisibility(View.INVISIBLE);
-                    shopping_list.setVisibility(View.VISIBLE);
-                    floatingbutton.setImageResource(R.drawable.mainpage);
+                    setView(!HOME);
                 }
             }
         });
@@ -192,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 productList.get(productList.indexOf(shoppingList.get(position))).setIs_in_list(false);
+                                productList.get(productList.indexOf(shoppingList.get(position))).setNum(0);
                                 updateShoppingList();
                                 Toast.makeText(MainActivity.this,"移除第" + (position + 1) +"个商品",Toast.LENGTH_SHORT).show();
                             }
@@ -221,9 +230,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent)
     {
-        itemslist.setVisibility(View.INVISIBLE);
-        shopping_list.setVisibility(View.VISIBLE);
-        floatingbutton.setImageResource(R.drawable.mainpage);
+        setView(!HOME);
     }
     @Override
     protected void onDestroy()
@@ -264,6 +271,24 @@ public class MainActivity extends AppCompatActivity {
         {
             unregisterReceiver(dynamicReceive);
             dynamicReceive = null;
+        }
+    }
+
+    private void setView(boolean view)
+    {
+        if(view == HOME)
+        {
+            floatingbutton.setImageResource(R.drawable.shoplist);
+            itemslist.setVisibility(View.VISIBLE);
+            shopping_list.setVisibility(View.INVISIBLE);
+            mButtonBar.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            floatingbutton.setImageResource(R.drawable.mainpage);
+            itemslist.setVisibility(View.INVISIBLE);
+            shopping_list.setVisibility(View.VISIBLE);
+            mButtonBar.setVisibility(View.VISIBLE);
         }
     }
 }
