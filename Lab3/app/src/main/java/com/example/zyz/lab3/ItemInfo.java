@@ -136,6 +136,7 @@ public class ItemInfo extends AppCompatActivity {
                 Intent intentBoardcast = new Intent(DYNAMICACTION);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("item",items);
+                intentBoardcast.putExtra("toShoplist",false);
                 intentBoardcast.putExtras(bundle);
                 sendBroadcast(intentBoardcast);
                 EventBus.getDefault().post(new MessageEvent(items));

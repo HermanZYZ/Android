@@ -8,5 +8,7 @@
     <string name="shopping_title">商品</string>
     <string name="shopping_price">单价</string>
     <string name="title_num">数量</string>
+    <string name="appwidget_text">当前没有任何信息</string>
+    <string name="add_widget">Add widget</string>
 
 </resources>

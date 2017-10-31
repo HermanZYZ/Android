@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intentBoardcast = new Intent(STATICACTION);
         Bundle bundle = new Bundle();
         bundle.putSerializable("item",productList.get(tmp));
+        intentBoardcast.putExtra("toShoplist",false);
         intentBoardcast.putExtras(bundle);
         sendBroadcast(intentBoardcast);
     }
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(int position) {
                         Intent newInten = new Intent().setClass(MainActivity.this, ItemInfo.class);
-                        newInten.putExtra("position",position);
+                        newInten.putExtra("toShoplist",false);
                         newInten.putExtra("item", productList.get(position));
                         startActivityForResult(newInten, 1);//启动intent
                     }
@@ -186,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(int position){
             // public void onItemClick(AdapterView<?> adapter,View view,int position,long l) {
                 Intent newInten = new Intent().setClass(MainActivity.this, ItemInfo.class);
-                newInten.putExtra("position", position);
+                newInten.putExtra("toShoplist",false);
                 newInten.putExtra("item", productList.get(position));
                 startActivityForResult(newInten, 2);//启动intent
             }
@@ -230,7 +231,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent)
     {
-        setView(!HOME);
+        boolean check = intent.getBooleanExtra("toShoplist",false);
+        if(check)
+            setView(!HOME);
     }
     @Override
     protected void onDestroy()

@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" android:launchMode="singleInstance">
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,9 +24,19 @@
             <intent-filter>
                 <action android:name="com.example.zyz.lab3.MyStaticFilter" />
             </intent-filter>
-            <!--<intent-filter>-->
-                <!--<action android:name="com.example.zyz.lab3.MyDynamicFilter" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="com.example.zyz.lab3.MyDynamicFilter" /> -->
+            <!-- </intent-filter> -->
+        </receiver>
+        <receiver android:name=".NewAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.zyz.lab3.MyStaticFilter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/new_app_widget_info" />
         </receiver>
     </application>
 
