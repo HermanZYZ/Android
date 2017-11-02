@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -151,30 +152,34 @@ public class MainActivity extends AppCompatActivity {
                         startActivityForResult(newInten, 1);//启动intent
                     }
 
-                    @Override
-                    public void onLongClick(final int position) { //长按事件
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                        builder.setTitle("移除商品")
-                                .setMessage("确认移除"+productList.get(position).getName()+"？")
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int which) {
-                                        productList.remove(position);
-                                        mAdapter.notifyDataSetChanged();
-                                        Toast.makeText(MainActivity.this,"移除第"+ (position + 1) +"个商品",Toast.LENGTH_SHORT).show();
-                                        updateShoppingList();
-                                    }
-                                })
-                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                                    }
-                                });
-                        builder.create().show();
-                    }
+//                    @Override
+//                    public void onLongClick(final int position) { //长按事件
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//                        builder.setTitle("移除商品")
+//                                .setMessage("确认移除"+productList.get(position).getName()+"？")
+//                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int which) {
+//                                        productList.remove(position);
+//                                        mAdapter.notifyDataSetChanged();
+//                                        Toast.makeText(MainActivity.this,"移除第"+ (position + 1) +"个商品",Toast.LENGTH_SHORT).show();
+//                                        updateShoppingList();
+//                                    }
+//                                })
+//                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                                    }
+//                                });
+//                        builder.create().show();
+//                    }
                 }
         );
+        ItemTouchCallBack itemTouchCallBack = new ItemTouchCallBack(mAdapter);
+        //设置给条目触摸的帮助类
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchCallBack);
+        itemTouchHelper.attachToRecyclerView(itemslist);
         itemslist.setAdapter(mAdapter);
 //////////////////////////////////////////////////////////////////////////////////////////////////
         //购物车列表

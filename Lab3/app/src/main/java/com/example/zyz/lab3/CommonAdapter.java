@@ -6,13 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by ZYZ on 2017/10/19.
  */
 
-public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder>
+public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> implements ItemTouchHelperAdapter
 {
     protected Context mContext;
     protected int mLayoutId;
@@ -60,13 +61,13 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder>
                     mOnItemClickListener.onClick(holder.getAdapterPosition());
                 }
             });
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    mOnItemClickListener.onLongClick(holder.getAdapterPosition());
-                    return false;
-                }
-            });
+//            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View v) {
+//                    mOnItemClickListener.onLongClick(holder.getAdapterPosition());
+//                    return false;
+//                }
+//            });
         }
     }
 
@@ -83,10 +84,24 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder>
     }
     public interface OnItemClickListener{
         void onClick(int position);
-        void onLongClick(int position);
+        //void onLongClick(int position);
     }
     public void setOnItemClickListener(OnItemClickListener onItemClickListener){
         this.mOnItemClickListener=onItemClickListener;
     }
+
+    public void onMove(int oldPosition, int newPosition) {
+        //集合里边数据
+        Collections.swap(mDatas, oldPosition, newPosition);
+        //刷新适配器
+        this.notifyItemMoved(oldPosition, newPosition);
+    }
+    public void swipe(int position) {
+        //移除数据
+        mDatas.remove(position);
+        //单条目刷新
+        this.notifyItemRemoved(position);
+    }
+
 }
 
