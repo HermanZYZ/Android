@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Music</string>
+    <string name="stopped">Stopped</string>
+    <string name="_04_00">04:00</string>
+    <string name="_00_00">00:00</string>
+    <string name="playing">Playing</string>
+    <string name="paused">Paused</string>
+</resources>
