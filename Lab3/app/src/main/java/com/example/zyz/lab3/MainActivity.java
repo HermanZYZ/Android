@@ -146,10 +146,10 @@ public class MainActivity extends AppCompatActivity {
                     //跳转到商品详细页面
                     @Override
                     public void onClick(int position) {
-                        Intent newInten = new Intent().setClass(MainActivity.this, ItemInfo.class);
-                        newInten.putExtra("toShoplist",false);
-                        newInten.putExtra("item", productList.get(position));
-                        startActivityForResult(newInten, 1);//启动intent
+                        Intent newIntent = new Intent().setClass(MainActivity.this, ItemInfo.class);
+                        newIntent.putExtra("toShoplist",false);
+                        newIntent.putExtra("item", productList.get(position));
+                        startActivityForResult(newIntent, 1);//启动intent
                     }
 
 //                    @Override

@@ -7,6 +7,8 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -14,8 +16,10 @@ import android.os.Parcel;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
@@ -56,18 +60,34 @@ public class MainActivity extends AppCompatActivity {
     private ServiceConnection mServerConnect;
     private SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("mm:ss");
     private ObjectAnimator mObjectAnimator;
+    private ObjectAnimator hObjectAnimator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Immersion();
         verifyStoragePermissions(this);
 
         ElemBinding();
         EvenBinding();
         ServerInit();
         HandleInit();
+    }
+
+    private void Immersion()
+    {
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setNavigationBarColor(Color.TRANSPARENT);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
     }
 
     private void  ElemBinding()
@@ -90,6 +110,17 @@ public class MainActivity extends AppCompatActivity {
         mObjectAnimator.setRepeatMode(ObjectAnimator.RESTART);
         mObjectAnimator.start();
         mObjectAnimator.pause();
+
+        ImageView handle = (ImageView) findViewById(R.id.ic_handle);
+        handle.setPivotX(handle.getWidth() / 4);
+        handle.setPivotY(handle.getHeight() / 8);
+        hObjectAnimator = ObjectAnimator.ofFloat(handle,"rotation", -30, 0);
+        hObjectAnimator.setDuration(1000);
+        hObjectAnimator.setInterpolator(new LinearInterpolator());
+        hObjectAnimator.setRepeatCount(0);
+        hObjectAnimator.setRepeatMode(ObjectAnimator.REVERSE);
+        hObjectAnimator.start();
+        hObjectAnimator.pause();
 
     }
 
@@ -256,20 +287,34 @@ public class MainActivity extends AppCompatActivity {
                 play_button.setBackgroundResource(R.drawable.pause);
                 status_show.setText(R.string.playing);
                 if (mObjectAnimator.isStarted())
+                {
                     mObjectAnimator.resume();
+                    hObjectAnimator.resume();
+                }
                 else
+                {
                     mObjectAnimator.start();
+                    hObjectAnimator.start();
+                }
                 break;
             case 1: //pause
                 play_button.setBackgroundResource(R.drawable.play);
                 status_show.setText(R.string.paused);
                 mObjectAnimator.pause();
+                hObjectAnimator.pause();
+                hObjectAnimator.end();
+                hObjectAnimator.start();
+                hObjectAnimator.pause();
                 break;
             case 2: //stop
                 play_button.setBackgroundResource(R.drawable.play);
                 status_show.setText(R.string.stopped);
                 mObjectAnimator.pause();
                 mObjectAnimator.end();
+                hObjectAnimator.pause();
+                hObjectAnimator.end();
+                hObjectAnimator.start();
+                hObjectAnimator.pause();
                 break;
         }
     }
@@ -283,7 +328,23 @@ public class MainActivity extends AppCompatActivity {
         }
         unbindService(mServerConnect);
         mServerConnect = null;
-        super.onDestroy();
         this.finish();
+        System.exit(0);
+        super.onDestroy();
+    }
+
+    //点击返回键不销毁程序，而是后台运行
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            Intent home = new Intent(Intent.ACTION_MAIN);
+//            home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            home.addCategory(Intent.CATEGORY_HOME);
+//            startActivity(home);
+            moveTaskToBack(false);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
