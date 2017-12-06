@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.zyz.lab8.addPerson">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="姓名："
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:layout_marginEnd="0dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/nameInput"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/nameInput" />
+
+    <TextView
+        android:id="@+id/nameInput"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="名字"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:layout_marginEnd="0dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/name"
+        app:layout_constraintVertical_bias="0.2"/>
+
+    <TextView
+        android:id="@+id/birth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="生日："
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintBaseline_toBaselineOf="@+id/birthInput"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/birthInput"/>
+
+    <EditText
+        android:id="@+id/birthInput"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toRightOf="@+id/birth"
+        app:layout_constraintTop_toBottomOf="@+id/nameInput"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/gift"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="礼物："
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintBaseline_toBaselineOf="@+id/giftInput"
+        app:layout_constraintTop_toBottomOf="@+id/birth"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/giftInput"/>
+
+    <EditText
+        android:id="@+id/giftInput"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toRightOf="@+id/gift"
+        app:layout_constraintTop_toBottomOf="@+id/birthInput"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="电话："
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        app:layout_constraintBaseline_toBaselineOf="@+id/number"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@+id/gift"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/gift"
+        app:layout_constraintEnd_toEndOf="@id/gift"
+        app:layout_constraintRight_toLeftOf="@+id/number"
+        />
+
+    <TextView
+        android:id="@+id/number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="电话"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/giftInput"
+        app:layout_constraintLeft_toRightOf="@id/phone"
+        />
+
+</android.support.constraint.ConstraintLayout>
