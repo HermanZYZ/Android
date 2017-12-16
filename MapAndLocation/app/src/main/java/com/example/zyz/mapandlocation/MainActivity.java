@@ -9,18 +9,25 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.amap.api.maps2d.AMap;
-import com.amap.api.maps2d.CameraUpdateFactory;
-import com.amap.api.maps2d.LocationSource;
-import com.amap.api.maps2d.MapView;
-import com.amap.api.maps2d.UiSettings;
-import com.amap.api.maps2d.model.BitmapDescriptorFactory;
-import com.amap.api.maps2d.model.LatLng;
-import com.amap.api.maps2d.model.MarkerOptions;
-import com.amap.api.maps2d.model.MyLocationStyle;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.LocationSource;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.UiSettings;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.HeatmapTileProvider;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.maps.model.TileOverlayOptions;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Random;
+
+import static com.amap.api.col.sln3.dk.r;
 
 //监听定位和定位变化
 public class MainActivity extends AppCompatActivity implements LocationSource, AMapLocationListener {
@@ -37,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
     //标识，用于判断是否只显示一次定位信息和用户重新定位
     private boolean isFirstLoc = true;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +75,46 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         myLocationStyle.strokeColor(android.R.color.transparent);
         aMap.setMyLocationStyle(myLocationStyle);
 
+//        //生成热力点坐标列表
+//        LatLng[] latlngs = new LatLng[500];
+//        double x = 23.0690124040 - 23.0687008594;
+//        double y = 113.3928457468 - 113.3927552534;
+//
+//        for (int i = 0; i < 500; i++) {
+//            double x_ = 0;
+//            double y_ = 0;
+//            x_ = Math.random() * x + 23.0687008594;
+//            y_ = Math.random() * y - 113.3927552534;
+//            latlngs[i] = new LatLng(x_, y_);
+//        }
+//
+//        // 构建热力图 HeatmapTileProvider
+//        HeatmapTileProvider.Builder builder = new HeatmapTileProvider.Builder();
+//        builder.data(Arrays.asList(latlngs));// 设置热力图绘制的数据
+//            //.gradient(ALT_HEATMAP_GRADIENT); // 设置热力图渐变，有默认值 DEFAULT_GRADIENT，可不设置该接口
+//        // Gradient 的设置可见参考手册
+//        // 构造热力图对象
+//        HeatmapTileProvider heatmapTileProvider = builder.build();
+//
+//        // 初始化 TileOverlayOptions
+//        TileOverlayOptions tileOverlayOptions = new TileOverlayOptions();
+//        tileOverlayOptions.tileProvider(heatmapTileProvider); // 设置瓦片图层的提供者
+//        // 向地图上添加 TileOverlayOptions 类对象
+//        aMap.addTileOverlay(tileOverlayOptions);
+
         //开始定位
         initLoc();
 
+        aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
 
+                int num = (int) (Math.random() * 500 + 500);
+                Toast.makeText(getApplicationContext(),"附近大概" + String.valueOf(num) + "人", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
     }
-
 
     //定位
     private void initLoc() {
@@ -169,12 +209,11 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         //标题
         options.title(buffer.toString());
         //子标题
-        //options.snippet("这里好火");
+        //options.snippet("附近大概675人");
         //设置是否可拖曳
         options.draggable(true);
         //设置多少帧刷新一次图片资源
         options.period(60);
-
         return options;
 
     }
@@ -227,5 +266,6 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         super.onDestroy();
         mapView.onDestroy();
     }
+
 }
 

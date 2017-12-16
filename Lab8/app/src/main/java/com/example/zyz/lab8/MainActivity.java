@@ -119,20 +119,24 @@ public class MainActivity extends AppCompatActivity {
                 }
                 try {
                     String tmp = "";
-                    Cursor c1 = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
-                    while (c1.moveToNext()) {
-                        String tmp2 = c1.getString(c1.getColumnIndex("_id"));
-                        if (c1.getString(c1.getColumnIndex("display_name")).equals(setname.getText().toString())) {
-                            if (Integer.parseInt(c1.getString(c1.getColumnIndex("has_phone_number"))) > 0) {
+                    Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+                    while (cursor.moveToNext())
+                    {
+                        String tmp2 = cursor.getString(cursor.getColumnIndex("_id"));
+                        if (cursor.getString(cursor.getColumnIndex("display_name")).equals(setname.getText().toString())) 
+                        {
+                            if (Integer.parseInt(cursor.getString(cursor.getColumnIndex("has_phone_number"))) > 0) 
+                            {
                                 Cursor c2 = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, "contact_id = " + tmp2, null, null);
-                                while (c2.moveToNext()) {
+                                while (c2.moveToNext()) 
+                                {
                                     tmp = tmp + c2.getString(c2.getColumnIndex("data1")) + "\n";
                                 }
                                 c2.close();
                             }
                         }
                     }
-                    c1.close();
+                    cursor.close();
                     if (tmp.isEmpty()) tmp = "None";
                     setnumber.setText(tmp);
                 }catch (Exception e){
