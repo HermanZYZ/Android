@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:swipe="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+            <ImageView
+                android:id="@+id/people_info_picture"
+                android:layout_width="200px"
+                android:layout_height="200px"/>
+
+            <TextView
+                android:id="@+id/people_info_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关羽"
+                android:textColor="@color/colorBlack"
+                android:layout_toRightOf="@id/people_info_picture"
+                android:textSize="20dp"
+                android:layout_marginLeft="0dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/gender" />
+
+            <TextView
+                android:id="@+id/gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="性别："
+                android:textSize="15dp"
+                android:layout_marginTop="0dp"
+                android:textColor="@color/colorBlack"
+                android:layout_toRightOf="@id/people_info_picture"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@id/people_info_name"
+                />
+            <TextView
+                android:id="@+id/people_info_sex"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="男"
+                android:textSize="15dp"
+                android:layout_marginTop="0dp"
+                android:textColor="@color/colorBlack"
+                android:layout_toRightOf="@id/gender"
+                android:layout_marginLeft="5dp"
+                android:layout_below="@id/people_info_name"
+                />
+
+            <TextView
+                android:id="@+id/subname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="表字："
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_below="@+id/gender"
+                android:layout_alignStart="@+id/gender" />
+            <TextView
+                android:id="@+id/people_info_second_name"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="云长"
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                android:layout_below="@+id/people_info_sex"
+                android:layout_alignStart="@+id/people_info_sex" />
+
+            <TextView
+                android:id="@+id/live"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="生卒："
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                android:layout_below="@+id/subname"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="0dp"
+                android:layout_alignParentBottom="false"
+                android:layout_toEndOf="@+id/people_info_picture"
+                android:layout_marginBottom="10dp" />
+            <TextView
+                android:id="@+id/people_info_place"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="999 - 999"
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                android:layout_below="@+id/people_info_second_name"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_alignParentBottom="false"
+                android:layout_toEndOf="@+id/live"
+                android:layout_marginBottom="10dp" />
+
+
+
+</RelativeLayout>
