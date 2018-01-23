@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.zyz.lab9.MainActivity">
+
+    <EditText
+        android:id="@+id/search"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:queryHint="Please input a user"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/clear"
+        app:layout_constraintEnd_toEndOf="@+id/fetch"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <Button
+        android:id="@+id/clear"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="CLEAR"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/fetch"
+        app:layout_constraintTop_toBottomOf="@+id/search"/>
+    <Button
+        android:id="@+id/fetch"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="FETCH"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/white"
+        android:background="@color/colorPrimary"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search"
+        app:layout_constraintLeft_toRightOf="@+id/clear"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/clear"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/clear"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <ProgressBar
+        android:id="@+id/process"
+        android:layout_height="60dp"
+        android:layout_width="60dp"
+        android:visibility="visible"
+        style="?android:attr/progressBarStyle"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:indeterminateDrawable="@drawable/processbar"
+        />
+
+</android.support.constraint.ConstraintLayout>
