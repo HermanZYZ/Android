@@ -105,15 +105,15 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         //开始定位
         initLoc();
 
-        aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-
-                int num = (int) (Math.random() * 500 + 500);
-                Toast.makeText(getApplicationContext(),"附近大概" + String.valueOf(num) + "人", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
+//        aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
+//            @Override
+//            public boolean onMarkerClick(Marker marker) {
+//
+//                int num = (int) (Math.random() * 500 + 500);
+//                Toast.makeText(getApplicationContext(),"附近大概" + String.valueOf(num) + "人", Toast.LENGTH_SHORT).show();
+//                return true;
+//            }
+//        });
     }
 
     //定位
@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         //标题
         options.title(buffer.toString());
         //子标题
-        //options.snippet("附近大概675人");
+        options.snippet("一层约178人，二层约267人，三层356人");
         //设置是否可拖曳
         options.draggable(true);
         //设置多少帧刷新一次图片资源
