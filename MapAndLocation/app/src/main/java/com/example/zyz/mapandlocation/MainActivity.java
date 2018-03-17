@@ -40,11 +40,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import static android.R.attr.name;
 import static com.amap.api.col.sln3.dk.r;
 import static com.example.zyz.mapandlocation.R.drawable.hot;
 
 //监听定位和定位变化
-public class MainActivity extends AppCompatActivity implements LocationSource, AMapLocationListener {
+public class MainActivity extends AppCompatActivity implements LocationSource, AMapLocationListener ,AMap.OnMapClickListener{
 
     //显示地图需要的变量
     private MapView mapView;//地图控件
@@ -86,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         settings.setMyLocationButtonEnabled(true);
         // 是否可触发定位并显示定位层
         aMap.setMyLocationEnabled(true);
+        //地图是否可点击
+        aMap.setOnMapClickListener(this);
 
 
         //定位的小图标 默认是蓝点 这里自定义一团火，其实就是一张图片
@@ -95,17 +98,40 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         myLocationStyle.strokeColor(android.R.color.transparent);
         aMap.setMyLocationStyle(myLocationStyle);
 
-//        //生成热力点坐标列表
-        LatLng[] latlngs = new LatLng[500];
-        double x = 23.069829204 - 23.0649356650;
-        double y = 113.3940335014 - 113.3890450001;
+        //生成热力点坐标列表
+        LatLng[] latlngs = new LatLng[750];
+        double x = 23.071460204 - 23.0649356650;
+        double y = 113.3166335014 - 113.3090450001;
+
+        double x_ = 0;
+        double y_ = 0;
 
         int i = 0;
-        for (;i < 500;i++) {
-            double x_ = 0;
-            double y_ = 0;
+        //校区
+        for (;i < 400;i++) {
             x_ = (Math.random() - 0.5) * x + 23.0649356650;
             y_ = (Math.random() - 0.5) * y + 113.3890450001;
+            latlngs[i] = new LatLng(x_, y_);
+        }
+        //图书馆
+        for(;i<500;i++)
+        {
+            x_ = (Math.random() - 0.5) * 0.001 + 23.0667618224;
+            y_ = (Math.random() - 0.5) * 0.001 + 113.3918130398;
+            latlngs[i] = new LatLng(x_, y_);
+        }
+        //教学楼
+        for(;i<600;i++)
+        {
+            x_ = (Math.random() - 0.5) * 0.0015 + 23.0683066335;
+            y_ = (Math.random() - 0.5) * 0.001 + 113.3930798573;
+            latlngs[i] = new LatLng(x_, y_);
+        }
+        //院楼
+        for(;i<750;i++)
+        {
+            x_ = (Math.random() - 0.5) * 0.0023 + 23.070994;
+            y_ = (Math.random() - 0.5) * 0.0031 + 113.394542;
             latlngs[i] = new LatLng(x_, y_);
         }
 
@@ -143,12 +169,14 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                     IF_Hot_Map = false;
                 } else/*当前处在Home界面*/ {
                     // 向地图上添加 TileOverlayOptions 类对象
+                    aMap.clear();
                     aMap.addTileOverlay(tileOverlayOptions);
                     IF_Hot_Map = true;
                 }
             }
         });
 
+        MarkListener();
     }
 
     //定位
@@ -211,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                     //点击定位按钮 能够将地图的中心移动到定位点
                     mListener.onLocationChanged(amapLocation);
                     //添加图钉
-                    aMap.addMarker(getMarkerOptions(amapLocation));
+//                    aMap.addMarker(getMarkerOptions(amapLocation));
                     //获取定位信息
                     StringBuffer buffer = new StringBuffer();
                     buffer.append(amapLocation.getCountry() + "" + amapLocation.getProvince() + "" + amapLocation.getCity() + "" + amapLocation.getProvince() + "" + amapLocation.getDistrict() + "" + amapLocation.getStreet() + "" + amapLocation.getStreetNum());
@@ -231,27 +259,6 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         }
     }
 
-    //自定义一个图钉，并且设置图标，当我们点击图钉时，显示设置的信息
-    private MarkerOptions getMarkerOptions(AMapLocation amapLocation) {
-        //设置图钉选项
-        MarkerOptions options = new MarkerOptions();
-        //图标
-        options.icon(BitmapDescriptorFactory.fromResource(R.mipmap.note));
-        //位置
-        options.position(new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude()));
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(amapLocation.getCountry() + "" + amapLocation.getProvince() + "" + amapLocation.getCity() +  "" + amapLocation.getDistrict() + "" + amapLocation.getStreet() + "" + amapLocation.getStreetNum());
-        //标题
-        options.title(buffer.toString());
-        //子标题
-        options.snippet("一层约178人，二层约267人，三层356人");
-        //设置是否可拖曳
-        options.draggable(true);
-        //设置多少帧刷新一次图片资源
-        options.period(60);
-        return options;
-
-    }
     //激活定位
     @Override
     public void activate(OnLocationChangedListener listener) {
@@ -359,6 +366,94 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 //        }
 //    }
 
+    //自定义一个图钉，并且设置图标，当我们点击图钉时，显示设置的信息
+    private MarkerOptions getMarkerOptions(AMapLocation amapLocation) {
+        //设置图钉选项
+        MarkerOptions options = new MarkerOptions();
+        //图标
+//        options.icon(BitmapDescriptorFactory.fromResource(R.mipmap.note));
+        //位置
+        options.position(new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude()));
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(amapLocation.getCountry() + "" + amapLocation.getProvince() + "" + amapLocation.getCity() +  "" + amapLocation.getDistrict() + "" + amapLocation.getStreet() + "" + amapLocation.getStreetNum());
+        //标题
+        options.title(buffer.toString());
+        //子标题
+        options.snippet("一层约178人，二层约267人，三层356人");
+        //设置是否可拖曳
+        options.draggable(true);
+        //设置多少帧刷新一次图片资源
+        options.period(60);
+        return options;
+
+    }
+
+    private static final double[] Latitude = {23.0663, 23.0689, 23.0676, 23.0662, 23.0657, 23.0686};
+    private static final double[] Longitude = {113.391,113.392, 113.392, 113.387, 113.386, 113.392};
+    private static final String[] Name = {"图书馆", "教学楼A", "教学楼E", "北基础实验楼", "环境科学实验中心", "教学楼B"};
+
+    //地图点击事件
+    @Override
+    public void onMapClick(LatLng latLng) {
+//点击地图后清理图层插上图标，在将其移动到中心位置
+        double latitude = latLng.latitude;
+        double longitude = latLng.longitude;
+
+        Log.e(String.valueOf(latitude),String.valueOf(longitude));
+
+        for(int i = 0;i < 6; i++)
+        {
+            if(Math.abs(latitude - Latitude[i]) < 0.0001 && Math.abs(longitude - Longitude[i]) < 0.001)
+            {
+                aMap.clear();
+                MarkerOptions otMarkerOptions = new MarkerOptions();
+//        otMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.note));
+                otMarkerOptions.position(latLng);
+                otMarkerOptions.title(Name[i]);
+                otMarkerOptions.snippet("1层: " + String.valueOf((int)(Math.random()*100)) +
+                        "\n2层: " + String.valueOf((int)(Math.random()*100)) +
+                        "\n3层: " + String.valueOf((int)(Math.random()*100)) +
+                        "\n4层: " + String.valueOf((int)(Math.random()*100)) +
+                        "\n5层: " + String.valueOf((int)(Math.random()*100))
+                );
+                aMap.addMarker(otMarkerOptions);
+                aMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
+                break;
+            }
+        }
+    }
+
+    // 定义 Marker 点击事件监听
+    AMap.OnMarkerClickListener markerClickListener = new AMap.OnMarkerClickListener() {
+        // marker 对象被点击时回调的接口
+        // 返回 true 则表示接口已响应事件，否则返回false
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+            return false;
+        }
+    };
+
+    private void MarkListener()
+    {
+        // 定义 Marker 点击事件监听
+        AMap.OnMarkerClickListener markerClickListener = new AMap.OnMarkerClickListener() {
+            // marker 对象被点击时回调的接口
+            // 返回 true 则表示接口已响应事件，否则返回false
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                if(marker.isFlat())
+                    marker.destroy();
+                else
+                {
+                    marker.showInfoWindow();
+                    marker.setFlat(true);
+                }
+                return true;
+            }
+        };
+// 绑定 Marker 被点击事件
+        aMap.setOnMarkerClickListener(markerClickListener);
+    }
 }
 
 
