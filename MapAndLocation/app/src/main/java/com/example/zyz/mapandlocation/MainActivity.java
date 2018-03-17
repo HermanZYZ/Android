@@ -1,8 +1,16 @@
 package com.example.zyz.mapandlocation;
 
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Environment;
+import android.support.annotation.BoolRes;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
@@ -22,12 +30,18 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.maps.model.TileOverlayOptions;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import static com.amap.api.col.sln3.dk.r;
+import static com.example.zyz.mapandlocation.R.drawable.hot;
 
 //监听定位和定位变化
 public class MainActivity extends AppCompatActivity implements LocationSource, AMapLocationListener {
@@ -35,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     //显示地图需要的变量
     private MapView mapView;//地图控件
     private AMap aMap;//地图对象
+
+    //Button
+    private Button HotMap;
+    private Boolean IF_Hot_Map = false;
 
 
     //定位需要的声明
@@ -50,13 +68,15 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        HotMap = (Button) findViewById(R.id.hotmap);
+
         //显示地图
         mapView = (MapView) findViewById(R.id.map);
         //必须要写
         mapView.onCreate(savedInstanceState);
         //获取地图对象
         aMap = mapView.getMap();
-
+        aMap.showIndoorMap(true);
 
         //设置显示定位按钮 并且可以点击
         UiSettings settings = aMap.getUiSettings();
@@ -76,31 +96,31 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         aMap.setMyLocationStyle(myLocationStyle);
 
 //        //生成热力点坐标列表
-//        LatLng[] latlngs = new LatLng[500];
-//        double x = 23.0690124040 - 23.0687008594;
-//        double y = 113.3928457468 - 113.3927552534;
-//
-//        for (int i = 0; i < 500; i++) {
-//            double x_ = 0;
-//            double y_ = 0;
-//            x_ = Math.random() * x + 23.0687008594;
-//            y_ = Math.random() * y - 113.3927552534;
-//            latlngs[i] = new LatLng(x_, y_);
-//        }
-//
-//        // 构建热力图 HeatmapTileProvider
-//        HeatmapTileProvider.Builder builder = new HeatmapTileProvider.Builder();
-//        builder.data(Arrays.asList(latlngs));// 设置热力图绘制的数据
-//            //.gradient(ALT_HEATMAP_GRADIENT); // 设置热力图渐变，有默认值 DEFAULT_GRADIENT，可不设置该接口
-//        // Gradient 的设置可见参考手册
-//        // 构造热力图对象
-//        HeatmapTileProvider heatmapTileProvider = builder.build();
-//
-//        // 初始化 TileOverlayOptions
-//        TileOverlayOptions tileOverlayOptions = new TileOverlayOptions();
-//        tileOverlayOptions.tileProvider(heatmapTileProvider); // 设置瓦片图层的提供者
-//        // 向地图上添加 TileOverlayOptions 类对象
-//        aMap.addTileOverlay(tileOverlayOptions);
+        LatLng[] latlngs = new LatLng[500];
+        double x = 23.069829204 - 23.0649356650;
+        double y = 113.3940335014 - 113.3890450001;
+
+        int i = 0;
+        for (;i < 500;i++) {
+            double x_ = 0;
+            double y_ = 0;
+            x_ = (Math.random() - 0.5) * x + 23.0649356650;
+            y_ = (Math.random() - 0.5) * y + 113.3890450001;
+            latlngs[i] = new LatLng(x_, y_);
+        }
+
+        // 构建热力图 HeatmapTileProvider
+        HeatmapTileProvider.Builder builder = new HeatmapTileProvider.Builder();
+        builder.data(Arrays.asList(latlngs));// 设置热力图绘制的数据
+            //.gradient(ALT_HEATMAP_GRADIENT); // 设置热力图渐变，有默认值 DEFAULT_GRADIENT，可不设置该接口
+        // Gradient 的设置可见参考手册
+        // 构造热力图对象
+        HeatmapTileProvider heatmapTileProvider = builder.build();
+
+        // 初始化 TileOverlayOptions
+        final TileOverlayOptions tileOverlayOptions = new TileOverlayOptions();
+        tileOverlayOptions.tileProvider(heatmapTileProvider); // 设置瓦片图层的提供者
+
 
         //开始定位
         initLoc();
@@ -114,6 +134,21 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 //                return true;
 //            }
 //        });
+
+        HotMap.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if (IF_Hot_Map) /*当前处在热力图层*/ {
+                    aMap.clear();
+                    IF_Hot_Map = false;
+                } else/*当前处在Home界面*/ {
+                    // 向地图上添加 TileOverlayOptions 类对象
+                    aMap.addTileOverlay(tileOverlayOptions);
+                    IF_Hot_Map = true;
+                }
+            }
+        });
+
     }
 
     //定位
@@ -267,5 +302,64 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         mapView.onDestroy();
     }
 
+//    public static void verifyStoragePermissions(Activity activity) {
+//        try {
+//            //检测是否有读的权限
+//            int permission = ActivityCompat.checkSelfPermission(activity,
+//                    "android.permission.READ_EXTERNAL_STORAGE");
+//            if (permission != PackageManager.PERMISSION_GRANTED) {
+//                // 没有读的权限，去申请读的权限，会弹出对话框
+//                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode,
+                permissions,
+                grantResults);
+        if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED))
+            onDestroy();
+        else
+        {
+            Toast.makeText(MainActivity.this, "已授权",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+//    private void readCsv(String name) {
+//        int i = 0;// 用于标记打印的条数
+//        try {
+//            File csv = new File(Environment.getExternalStorageDirectory() + "/" + name + ".csv"); // CSV文件路径
+//            BufferedReader br = new BufferedReader(new FileReader(csv));
+//            br.readLine();
+//            String line = "";
+////            Log.e("before read", csv.getAbsolutePath());
+//            while ((line = br.readLine()) != null) { // 这里读取csv文件中的前10条数据
+//                i++;
+////                System.out.println("第" + i + "行：" + line);// 输出每一行数据
+//                /**
+//                 *  csv格式每一列内容以逗号分隔,因此要取出想要的内容,以逗号为分割符分割字符串即可,
+//                 *  把分割结果存到到数组中,根据数组来取得相应值
+//                 */
+//                String buffer[] = line.split(",");// 以逗号分隔
+////                System.out.println("第" + i + "行：" + buffer[0]);// 取第一列数据
+////                System.out.println("第" + i + "行：" + buffer[1]);
+//                dbHelper.insert(Double.valueOf(buffer[0]), Double.valueOf(buffer[1]));
+//            }
+//            Log.e("Number", String.valueOf(i));
+//            br.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            Log.e("file error", e.getMessage());
+//        }
+//    }
+
 }
+
+
 
